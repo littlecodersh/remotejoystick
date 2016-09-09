@@ -1,4 +1,4 @@
-# remote-joystick
+# RemoteJoystick
 
 ![version][py27]
 
