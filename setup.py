@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 from codecs import open
 from os import path
-import remote-joystick
+import RemoteJoystick
 
 here = path.abspath(path.dirname(__file__))
 
@@ -11,7 +11,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 setup(
     name='remote-joystick',
 
-    version=remote-joystick.__version__,
+    version=RemoteJoystick.__version__,
 
     description='Remote joysticks can be used as locals ones.',
 
@@ -41,14 +41,14 @@ setup(
     # simple. Or you can use find_packages().
     packages=find_packages(),
 
-    install_requires=['pygame'],
+    install_requires=['pygame', 'docopt'],
 
     # List additional groups of dependencies here
     extras_require={},
 
     entry_points={
         'console_scripts':[
-            'remote-joystick = remote-joystick.main:main'
+            'remote-joystick = RemoteJoystick.main:main'
         ]
     },
 )

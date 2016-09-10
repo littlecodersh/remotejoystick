@@ -1,0 +1,1 @@
+VERIFY_CODE = '1234'

@@ -1,5 +1,5 @@
 build/*
 dist/*
-remote-joystick.egg-info/*
+remote_joystick.egg-info/*
 *.pyc
 *.swp
