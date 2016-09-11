@@ -1,12 +1,14 @@
 '''
 Usage:
     remote-joystick (-e | -s | -r) [-d ADDRESS] [-p PORT] [-n COUNT] [-c CODE]
+    remote-joystick (-l | --local)
     remote-joystick (-h | --help)
     remote-joystick --version
 
 Options:
     -h --help       show this screen
     -v --version    show version
+    -l --local      use joystick as keyboard locally
     -e --server     start as server
     -s --sender     start as sender
     -r --receiver   start as receiver
@@ -30,6 +32,9 @@ def main():
     elif arg['--receiver']:
         from receiver import run_receiver
         run_receiver(arg['-d'], arg['-p'], arg['-c'])
+    elif arg['--local']:
+        from local import run_local
+        run_local()
     print('Bye~')
 
 if __name__ == '__main__':
