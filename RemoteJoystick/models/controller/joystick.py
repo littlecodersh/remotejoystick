@@ -67,6 +67,13 @@ class joystick(object):
             self.__functionDict['axis'][number] = fn
             return fn
         return _axis_register
+    def hat_register(self, number):
+        if not 0 <= number <= 1:
+            raise Exception('No hat %s.' % number)
+        def _hat_register(fn):
+            self.__functionDict['hat'][number] = fn
+            return fn
+        return _hat_register
     def start(self):
         self.__alive = True
         self.mainThread.start()

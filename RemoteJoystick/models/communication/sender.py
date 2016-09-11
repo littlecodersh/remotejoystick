@@ -8,23 +8,23 @@ class sender(object):
     def connect(self, serverInfo, verifyCode):
         if self.__connected == True: return True
         self.__client.connect(serverInfo)
-        self.__client.push(1, ('0000' + verifyCode)[-4:])
+        self.__client.push(jssocket.SENDER, ('0000' + verifyCode)[-4:])
         msgType, msgData = self.__client.pull()
-        if msgType == 1 and msgData == verifyCode:
+        if msgType == jssocket.SENDER and msgData == verifyCode:
             self.__connected = True
             return True
         else:
-            self.__client.push(0, b'\x00\x00\x00\x00')
+            self.__client.push(jssocket.CLOSE, b'\x00\x00\x00\x00')
             self.__client.close()
             return False
     def disconnect(self):
         if self.__connected == False: return
-        self.__client.push(0, b'\x00\x00\x00\x00')
+        self.__client.push(jssocket.CLOSE, b'\x00\x00\x00\x00')
         self.__client.close()
         self.__connected = False
     def sendMsg(self, data):
         if not self.__connected: return False
-        self.__client.push(3, (b'\x00\x00\x00\x00' +
+        self.__client.push(jssocket.DATA, (b'\x00\x00\x00\x00' +
             data)[-4:])
         return True
 

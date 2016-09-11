@@ -3,11 +3,9 @@ import time
 from models.communication.sender import sender
 from models.controller.keyboard import KEY_VALUE_LIST
 from models.controller.joystick import joystick
+from config import BUTTON_DICT, DIRECTION_LIST, HAT_LIST
 
 KEY_VALUE_LIST = {k: chr(v) for k, v in KEY_VALUE_LIST.items()}
-BUTTON_LIST = {
-    0: 'A', 1: 'B',
-    2: 'X', 3: 'Y', }
 
 def run_sender(serverIp, serverPort, verifyCode):
     s = sender()
@@ -32,16 +30,26 @@ def run_sender(serverIp, serverPort, verifyCode):
             @js.axis_register(i)
             def axis_fn(status):
                 if status == 0:
-                    key_up(KEY_VALUE_LIST[neg])
-                    key_up(KEY_VALUE_LIST[pos])
+                    key_up(KEY_VALUE_LIST.get(neg, neg))
+                    key_up(KEY_VALUE_LIST.get(pos, pos))
                 elif status == 1:
-                    key_down(KEY_VALUE_LIST[pos])
+                    key_down(KEY_VALUE_LIST.get(pos, pos))
                 elif status == -1:
-                    key_down(KEY_VALUE_LIST[neg])
+                    key_down(KEY_VALUE_LIST.get(neg, neg))
+        def registe_hat(i, neg, pos):
+            @js.hat_register(i)
+            def hat_fn(status):
+                if status == 0:
+                    key_up(KEY_VALUE_LIST.get(neg, neg))
+                    key_up(KEY_VALUE_LIST.get(pos, pos))
+                elif status == 1:
+                    key_down(KEY_VALUE_LIST.get(pos, pos))
+                elif status == -1:
+                    key_down(KEY_VALUE_LIST.get(neg, neg))
 
-        for k, v in BUTTON_LIST.items(): registe_button(k, v)
-        for directionTuple in ((0, 'left', 'right'), (1, 'up', 'down')):
-            registe_axis(*directionTuple)
+        for k, v in BUTTON_DICT.items(): registe_button(k, v)
+        for directionTuple in DIRECTION_LIST: registe_axis(*directionTuple)
+        for hatTuple in HAT_LIST: registe_hat(*hatTuple)
 
         js.init()
         js.start()

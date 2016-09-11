@@ -1,7 +1,5 @@
 import socket, re
 
-import traceback
-
 # b'\x08\x00\x01\x00\x00\x00\x00\x00'
 # 0. \x08\x00
 # 2. \x00: close \x01: sender \x02: receiver \x03: data
@@ -11,6 +9,7 @@ import traceback
 msgRegex = re.compile(b'\x08\x00[\x00\x01\x02\x03][\s\S]{4}\x00')
 
 class jssocket(socket.socket):
+    CLOSE, SENDER, RECEIVER, DATA = 0, 1, 2, 3
     def pull(self):
         return self.format_pull(self)
     def push(self, msgType, msg):

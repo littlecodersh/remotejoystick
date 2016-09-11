@@ -11,28 +11,28 @@ class receiver(object):
     def __recv_fn(self):
         while self.__connected:
             msgType, msgData = self.__client.pull()
-            if msgType == 0:
+            if msgType == jssocket.CLOSE:
                 self.disconnect()
             else:
-                self.__msgPipe.insert(0, msgData)
+                self.__msgPipe.insert(jssocket.CLOSE, msgData)
     def connect(self, serverInfo, verifyCode):
         if self.__connected == True: return True
         self.__client.connect(serverInfo)
-        self.__client.push(2, ('0000' + verifyCode)[-4:])
+        self.__client.push(jssocket.RECEIVER, ('0000' + verifyCode)[-4:])
         msgType, msgData = self.__client.pull()
-        if msgType == 2 and msgData == verifyCode:
+        if msgType == jssocket.RECEIVER and msgData == verifyCode:
             self.__connected = True
             recvThread = threading.Thread(target=self.__recv_fn)
             recvThread.setDaemon(True)
             recvThread.start()
             return True
         else:
-            self.__client.push(0, b'\x00\x00\x00\x00')
+            self.__client.push(jssocket.CLOSE, b'\x00\x00\x00\x00')
             self.__client.close()
             return False
     def disconnect(self):
         if self.__connected == False: return
-        self.__client.push(0, b'\x00\x00\x00\x00')
+        self.__client.push(jssocket.CLOSE, b'\x00\x00\x00\x00')
         self.__client.close()
         self.__connected = False
     def getMsg(self):
