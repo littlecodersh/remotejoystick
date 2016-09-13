@@ -44,7 +44,7 @@ class joystick(object):
             self.__statusDict[part][number] = status
     def available(self):
         return __joyStick is not None
-    def init(self):
+    def init(self, stickNumber=0):
         try:
             pygame.init()
             pygame.joystick.init()
@@ -80,21 +80,3 @@ class joystick(object):
     def stop(self):
         self.__alive = False
         pygame.quit()
-
-if __name__ == '__main__':
-    js = joystick()
-    js.init()
-    for i in range(10):
-        @js.button_register(i)
-        def button_fn(motion):
-            print('Button %s.' % motion)
-    for i in range(5):
-        @js.axis_register(i)
-        def axis_fn(motion):
-            print('Axis %s.' % motion)
-    js.start()
-    try:
-        raw_input('Finish')
-    except:
-        pass
-    js.stop()

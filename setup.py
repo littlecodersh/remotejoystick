@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 from codecs import open
 from os import path
-import RemoteJoystick
+import remotejoystick
 
 here = path.abspath(path.dirname(__file__))
 
@@ -9,15 +9,15 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='remote-joystick',
+    name='remotejoystick',
 
-    version=RemoteJoystick.__version__,
+    version=remotejoystick.__version__,
 
     description='Remote joysticks can be used as locals ones.',
 
     long_description=long_description,
 
-    url='https://github.com/littlecodersh/remote-joystick',
+    url='https://github.com/littlecodersh/remotejoystick',
 
     author='LittleCoder',
     author_email='i7meavnktqegm1b@qq.com',
@@ -48,7 +48,7 @@ setup(
 
     entry_points={
         'console_scripts':[
-            'remote-joystick = RemoteJoystick.main:main'
+            'remotejoystick = remotejoystick.main:main'
         ]
     },
 )

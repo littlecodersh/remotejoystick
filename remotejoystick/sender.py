@@ -7,7 +7,7 @@ from config import BUTTON_DICT, DIRECTION_LIST, HAT_LIST
 
 KEY_VALUE_LIST = {k: chr(v) for k, v in KEY_VALUE_LIST.items()}
 
-def run_sender(serverIp, serverPort, verifyCode):
+def run_sender(serverIp, serverPort, verifyCode, joystickNumber):
     s = sender()
     def key_down(key):
         s.sendMsg(b'\x01' + b'\x00' * 2 + key)
@@ -51,16 +51,13 @@ def run_sender(serverIp, serverPort, verifyCode):
         for directionTuple in DIRECTION_LIST: registe_axis(*directionTuple)
         for hatTuple in HAT_LIST: registe_hat(*hatTuple)
 
-        js.init()
-        js.start()
-        while 1: raw_input()
-    except KeyboardInterrupt:
-        try:
-            s.disconnect()
-            js.stop()
-        except NameError:
-            pass
-    except EOFError:
+        if js.init(joystickNumber):
+            js.start()
+            while 1: raw_input()
+        else:
+            print('Specified joystick not detected, please restart after plugged in.')
+    except Exception as e:
+        if not e in (NameError, EOFError): raise e
         try:
             s.disconnect()
             js.stop()

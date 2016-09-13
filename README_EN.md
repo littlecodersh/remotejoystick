@@ -1,14 +1,58 @@
-# remote-joystick
+# remotejoystick
 
-![py2][py2] ![py3][py3] [Chinese Version][chinese_version]
+![version][py27] [中文版][chinese-version]
 
-This program is under development.
+Remote joysticks can be connected to local computers now.
 
-[py2]: https://img.shields.io/badge/python-2.7-ff69b4.svg "python2"
-[py3]: https://img.shields.io/badge/python-3.5-red.svg "python3"
-[chinese_version]: https://github.com/littlecodersh/RemoteJoystick/blob/master/README.md
-[document]: http://danmu.readthedocs.io/zh_CN/latest/
-[screenshot]: http://7xrip4.com1.z0.glb.clouddn.com/danmu/demo.png?imageView/2/w/400/ "screenshot"
-[issue#1]: https://github.com/littlecodersh/RemoteJoystick/issues/1
-[gitter_picture]: https://badges.gitter.im/littlecodersh/danmu.svg "gitter"
-[gitter]: https://gitter.im/littlecodersh/danmu?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
+So some interesting games without online version can be played through screen sharing.
+
+This version turns remote joysticks into local keyboard. With a ordinary server, delay is about 100ms.
+
+Also, this program provide local joystick to keyboard function.
+
+## Install
+
+You may install this program through the following script:
+
+```bash
+pip install remotejoystick
+```
+
+## Usage
+
+This program provides two basic functions: local j2k & remote joystick connection.
+
+More detailed help info is also available: `remotejoystick -h`
+
+### remote joystick connection
+
+First, you need to have an touchable public net ip, assume it is `114.114.114.114`.
+
+Install this program on the server of the ip (three platfroms supported), and run this cmd: `remotejoystick -ep 2333`.
+
+This will use 2333 port for this program.
+
+Then run this cmd on the joystick pc: `remotejoystick -sd 114.114.114.114 -p 2333`. (-j option is for more than one joystick)
+
+Finally, use this cmd on game pc: `remotejoystick -rd 114.114.114.114 -p 2333`. (order of the last two cmd does not matter)
+
+### local joystick to keyboard
+
+Use this cmd to turn joystick to keyboard locally: `remotejoystick --local`.
+
+## Future features
+* Visual version
+* Simulate as joystick signal locally (**help wanted! If you have any idea please contact me.**)
+
+## Author
+
+Author: [LittleCoder][author]
+
+Email: i7meavnktqegm1b@qq.com
+
+Suggestion: [Issue #1][issue#1]
+
+[py27]: https://img.shields.io/badge/python-2.7-ff69b4.svg
+[author]: https://github.com/littlecodersh
+[chinese-version]: https://github.com/littlecodersh/remotejoystick/blob/master/README.md
+[issue#1]: https://github.com/littlecodersh/remotejoystick/issues/1

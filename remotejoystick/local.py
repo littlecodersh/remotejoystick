@@ -1,25 +1,18 @@
-from models.controller.keyboard import KEY_VALUE_LIST
 from models.controller.joystick import joystick
 from models.controller.keyboard import keyboard
 from config import BUTTON_DICT, DIRECTION_LIST, HAT_LIST
 
-JOY_VALUE_LIST = {k: chr(v) for k, v in KEY_VALUE_LIST.items()}
-
-def run_local():
+def run_local(joystickNumber):
     js = joystick()
     kb = keyboard()
 
-    def key_down(key):
-        kb.key_down(key)
-    def key_up(key):
-        kb.key_up(key)
     def registe_button(k, v):
         @js.button_register(k)
         def button_fn(motion):
             if motion == 'down':
-                key_down(v)
+                kb.key_down(v)
             elif motion == 'up':
-                key_up(v)
+                kb.key_up(v)
     def registe_axis_or_hat(register, i, neg, pos):
         @register(i)
         def axis_fn(status):
@@ -34,9 +27,14 @@ def run_local():
     for directionTuple in DIRECTION_LIST: registe_axis_or_hat(js.axis_register, *directionTuple)
     for hatTuple in HAT_LIST: registe_axis_or_hat(js.hat_register, *hatTuple)
 
-    js.init()
-    js.start()
-    try:
-        while 1: raw_input()
-    except:
-        pass
+    if js.init(joystickNumber):
+        js.start()
+        try:
+            print('Your joystick can be used as keyboard now.')
+            while 1: raw_input()
+        except:
+            pass
+        js.stop()
+    else:
+        print('Specified joystick not detected, please restart after plugged in')
+

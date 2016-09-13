@@ -1,34 +1,65 @@
-remote-joystick
+remotejoystick
 ===============
 
-|py2| `Chinese Version <chinese_version_>`_
+|py2| `中文版 <chinese_version_>`_
 
-**目前该程序还在开发阶段。**
+Remote joysticks can be connected to local computers now.
 
-将远程手柄连接到本地电脑上。
+So some interesting games without online version can be played through screen sharing.
 
-这样一些没有联网版本的游戏也可以通过屏幕共享实现多人联网。
+This version turns remote joysticks into local keyboard. With a ordinary server, delay is about 100ms.
 
-**Current process**
+Also, this program provide local joystick to keyboard function.
 
-通过将手柄信号读取并传送，在本地转化为键盘消息。
+Install
+>>>>>>>
 
-在有公网的服务器运行`server.py`，并将config中的ip改为公网服务器的ip。
+You may install this program through the following script:
 
-在手柄端运行`sender.py`，在接收端运行`receiver.py`即可。（先后无所谓）
+.. code:: bash
 
-如果要开启多个receiver，需要多个命令行窗口。
+    pip install remotejoystick
 
-**Future features**
 
-* 可视化界面
-* 一个receiver接收多个sender
-* 本地也模拟为手柄信号（**需要帮助，如果你有想法请务必联系我**）
+Usage
+>>>>>
+
+This program provides two basic functions: local j2k & remote joystick connection.
+
+More detailed help info is also available: `remotejoystick -h`
+
+**remote joystick connection**
+
+First, you need to have an touchable public net ip, assume it is `114.114.114.114`.
+
+Install this program on the server of the ip (three platfroms supported), and run this cmd: `remotejoystick -ep 2333`.
+
+This will use 2333 port for this program.
+
+Then run this cmd on the joystick pc: `remotejoystick -sd 114.114.114.114 -p 2333`. (-j option is for more than one joystick)
+
+Finally, use this cmd on game pc: `remotejoystick -rd 114.114.114.114 -p 2333`. (order of the last two cmd does not matter)
+
+**local joystick to keyboard**
+
+Use this cmd to turn joystick to keyboard locally: `remotejoystick --local`.
+
+Future features
+>>>>>>>>>>>>>>>
+
+- Visual version
+- Simulate as joystick signal locally (**help wanted! If you have any idea please contact me.**)
+
+Author
+>>>>>>
+
+Author: `LittleCoder <author_>`_
+
+Email: i7meavnktqegm1b@qq.com
+
+Suggestion: `Issue #1 <issue#1_>`_
 
 .. |py2| image:: https://img.shields.io/badge/python-2.7-ff69b4.svg
-.. |py3| image:: https://img.shields.io/badge/python-3.5-red.svg
-.. _chinese_version: https://github.com/littlecodersh/RemoteJoystick/blob/master/README.md
-.. _document: https://danmu.readthedocs.org/zh/latest/
-.. _issue#1: https://github.com/littlecodersh/RemoteJoystick/issues/1
-.. |gitter| image:: https://badges.gitter.im/littlecodersh/danmu.svg
-.. _gitter: https://gitter.im/littlecodersh/danmu?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
+.. _chinese_version: https://github.com/littlecodersh/remotejoystick/blob/master/README.md
+.. _author: https://github.com/littlecodersh
+.. _issue#1: https://github.com/littlecodersh/remotejoystick/issues/1
