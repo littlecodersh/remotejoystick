@@ -16,8 +16,8 @@ class jssocket(socket.socket):
         return self.format_push(self, msgType, msg)
     def format_push(self, remoteClient, msgType, msg):
         try:
-            remoteClient.sendall(b'\x08\x00' + chr(msgType)
-                + msg + b'\x00')
+            remoteClient.sendall(b'\x08\x00' + chr(msgType).encode('utf8')
+                + msg.encode('utf8') + b'\x00')
             return True
         except:
             return False
@@ -27,4 +27,4 @@ class jssocket(socket.socket):
         except:
             return 0, b'\x00\x00\x00\x00'
         if not msgRegex.match(msg): return None, None
-        return ord(msg[2]), msg[3:7]
+        return ord(msg[2:3]), msg[3:7].decode('utf8')

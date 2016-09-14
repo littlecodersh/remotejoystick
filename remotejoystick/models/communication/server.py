@@ -1,6 +1,6 @@
-import time, threading, socket
+import time, threading, socket, sys
 
-from jssocket import jssocket
+from .jssocket import jssocket
 
 CONNECT_WAIT_TIME, CMD_WAIT_TIME = 5, 180
 CLIENT_LIST = [[], []]
@@ -34,7 +34,7 @@ class server(object):
                 # means this socket is the second socket
                 if self.__verificationDict.get(data) == order:
                     # same verify code is currently used
-                    self.__server.format_push(remoteClient, 0, b'\x00\x00\x00\x00')
+                    self.__server.format_push(remoteClient, 0, '\x00\x00\x00\x00')
                     remoteClient.close()
                 else:
                     # set value so that first socket can go on with it
@@ -71,10 +71,10 @@ class server(object):
                 if msgType == 0: self.__alive = False
         try: # exit main loop so socket will be closed
             for c in (sender, receiver): 
-                self.__server.format_push(c, 0, b'\x00\x00\x00\x00')
+                self.__server.format_push(c, 0, '\x00\x00\x00\x00')
                 c.close()
         except NameError: # cannot get second socket in CMD_WAIT_TIME
-            self.__server.format_push(client, 0, b'\x00\x00\x00\x00')
+            self.__server.format_push(client, 0, '\x00\x00\x00\x00')
             client.close()
     def start(self):
         self.__alive = True
@@ -86,5 +86,6 @@ class server(object):
 if __name__ == '__main__':
     s = server(('127.0.0.1', 2333))
     s.start()
-    raw_input('Started\n')
+    print('Started')
+    sys.stdin.read()
     s.stop()

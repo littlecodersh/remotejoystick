@@ -41,4 +41,7 @@ if __name__ == '__main__':
     kb.key_down('v')
     time.sleep(2)
     kb.key_up('v')
-    raw_input('Finish')
+    try:
+        sys.stdin.read()
+    except:
+        print('Finish')

@@ -1,6 +1,6 @@
 import threading, time
 
-from jssocket import jssocket
+from .jssocket import jssocket
 
 class receiver(object):
     __client = jssocket()
@@ -27,12 +27,12 @@ class receiver(object):
             recvThread.start()
             return True
         else:
-            self.__client.push(jssocket.CLOSE, b'\x00\x00\x00\x00')
+            self.__client.push(jssocket.CLOSE, '\x00\x00\x00\x00')
             self.__client.close()
             return False
     def disconnect(self):
         if self.__connected == False: return
-        self.__client.push(jssocket.CLOSE, b'\x00\x00\x00\x00')
+        self.__client.push(jssocket.CLOSE, '\x00\x00\x00\x00')
         self.__client.close()
         self.__connected = False
     def getMsg(self):

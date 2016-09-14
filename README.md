@@ -1,6 +1,6 @@
 # remotejoystick
 
-![version][py27] [English Version][english-version]
+![py27][py27] ![py35][py35] [English Version][english-version]
 
 将远程手柄连接到本地电脑上。
 
@@ -52,7 +52,8 @@ pip install remotejoystick
 
 意见收集：[Issue #1][issue#1]
 
-[py27]: https://img.shields.io/badge/python-2.7-ff69b4.svg
+[py27]: https://img.shields.io/badge/python-2.7-ff69b4.svg "python27"
+[py35]: https://img.shields.io/badge/python-3.5-red.svg "python35"
 [author]: https://github.com/littlecodersh
 [english-version]: https://github.com/littlecodersh/remotejoystick/blob/master/README_EN.md
 [issue#1]: https://github.com/littlecodersh/remotejoystick/issues/1

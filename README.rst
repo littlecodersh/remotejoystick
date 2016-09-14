@@ -1,7 +1,7 @@
 remotejoystick
 ===============
 
-|py2| `中文版 <chinese_version_>`_
+|py27| |py35| `中文版 <chinese_version_>`_
 
 Remote joysticks can be connected to local computers now.
 
@@ -59,7 +59,8 @@ Email: i7meavnktqegm1b@qq.com
 
 Suggestion: `Issue #1 <issue#1_>`_
 
-.. |py2| image:: https://img.shields.io/badge/python-2.7-ff69b4.svg
+.. |py27| image:: https://img.shields.io/badge/python-2.7-ff69b4.svg
+.. |py35| image:: https://img.shields.io/badge/python-3.5-red.svg
 .. _chinese_version: https://github.com/littlecodersh/remotejoystick/blob/master/README.md
 .. _author: https://github.com/littlecodersh
 .. _issue#1: https://github.com/littlecodersh/remotejoystick/issues/1

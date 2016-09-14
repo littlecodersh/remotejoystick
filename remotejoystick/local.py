@@ -1,3 +1,5 @@
+import sys
+
 from models.controller.joystick import joystick
 from models.controller.keyboard import keyboard
 from config import BUTTON_DICT, DIRECTION_LIST, HAT_LIST
@@ -31,10 +33,9 @@ def run_local(joystickNumber):
         js.start()
         try:
             print('Your joystick can be used as keyboard now.')
-            while 1: raw_input()
+            sys.stdin.read()
         except:
             pass
         js.stop()
     else:
         print('Specified joystick not detected, please restart after plugged in')
-

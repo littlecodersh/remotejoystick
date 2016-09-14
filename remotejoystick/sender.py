@@ -1,4 +1,4 @@
-import time
+import time, sys
 
 from models.communication.sender import sender
 from models.controller.keyboard import KEY_VALUE_LIST
@@ -10,9 +10,9 @@ KEY_VALUE_LIST = {k: chr(v) for k, v in KEY_VALUE_LIST.items()}
 def run_sender(serverIp, serverPort, verifyCode, joystickNumber):
     s = sender()
     def key_down(key):
-        s.sendMsg(b'\x01' + b'\x00' * 2 + key)
+        s.sendMsg('\x01' + '\x00' * 2 + key)
     def key_up(key):
-        s.sendMsg(b'\x00' * 3 + key)
+        s.sendMsg('\x00' * 3 + key)
     print('Sender started, press Ctrl-C to exit.')
     try:
         while not s.connect((serverIp, serverPort), verifyCode): pass
@@ -53,11 +53,11 @@ def run_sender(serverIp, serverPort, verifyCode, joystickNumber):
 
         if js.init(joystickNumber):
             js.start()
-            while 1: raw_input()
+            sys.stdin.read() # I can't use while 1: time.sleep(1) here and I don't know why
         else:
             print('Specified joystick not detected, please restart after plugged in.')
     except Exception as e:
-        if not e in (NameError, EOFError): raise e
+        if not e in (KeyboardInterrupt, EOFError): print(e.args)
         try:
             s.disconnect()
             js.stop()

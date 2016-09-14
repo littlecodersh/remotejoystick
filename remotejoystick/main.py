@@ -21,10 +21,11 @@ Options:
     -j STICKINDEX   specify joystick index for input [default: 0]
 '''
 from docopt import docopt
-from __init__ import __version__ as version
+
+__version__ = '0.0.5'
 
 def main():
-    arg = docopt(__doc__, version=version)
+    arg = docopt(__doc__, version=__version__)
     arg['-p'], arg['-n'] = int(arg['-p']), int(arg['-n'])
     if arg['--server']:
         from server import run_server
