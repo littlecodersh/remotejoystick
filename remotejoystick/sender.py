@@ -1,9 +1,9 @@
 import time, sys
 
-from models.communication.sender import sender
-from models.controller.keyboard import KEY_VALUE_LIST
-from models.controller.joystick import joystick
-from config import BUTTON_DICT, DIRECTION_LIST, HAT_LIST
+from .models.communication.sender import sender
+from .models.controller.keyboard import KEY_VALUE_LIST
+from .models.controller.joystick import joystick
+from .config import BUTTON_DICT, DIRECTION_LIST, HAT_LIST
 
 KEY_VALUE_LIST = {k: chr(v) for k, v in KEY_VALUE_LIST.items()}
 

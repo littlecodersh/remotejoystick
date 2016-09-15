@@ -22,22 +22,22 @@ Options:
 '''
 from docopt import docopt
 
-__version__ = '0.0.5'
+__version__ = '0.0.6'
 
 def main():
     arg = docopt(__doc__, version=__version__)
     arg['-p'], arg['-n'] = int(arg['-p']), int(arg['-n'])
     if arg['--server']:
-        from server import run_server
+        from .server import run_server
         run_server(arg['-p'], arg['-n'])
     elif arg['--sender']:
-        from sender import run_sender
+        from .sender import run_sender
         run_sender(arg['-d'], arg['-p'], arg['-c'], arg['-j'])
     elif arg['--receiver']:
-        from receiver import run_receiver
+        from .receiver import run_receiver
         run_receiver(arg['-d'], arg['-p'], arg['-c'])
     elif arg['--local']:
-        from local import run_local
+        from .local import run_local
         run_local(arg['-c'])
     print('Bye~')
 

@@ -1,7 +1,7 @@
 import time
 
-from models.communication.receiver import receiver
-from models.controller.keyboard import keyboard, KEY_VALUE_LIST
+from .models.communication.receiver import receiver
+from .models.controller.keyboard import keyboard, KEY_VALUE_LIST
 
 KEY_VALUE_LIST = {chr(v): k for k, v in KEY_VALUE_LIST.items()}
 

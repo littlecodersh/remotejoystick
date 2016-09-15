@@ -1,6 +1,6 @@
 import time
 
-from models.communication.server import server
+from .models.communication.server import server
 
 def run_server(serverPort, accessPair):
     s = server(('0.0.0.0', serverPort), accessPair)

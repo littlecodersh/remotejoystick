@@ -1,8 +1,8 @@
 import sys
 
-from models.controller.joystick import joystick
-from models.controller.keyboard import keyboard
-from config import BUTTON_DICT, DIRECTION_LIST, HAT_LIST
+from .models.controller.joystick import joystick
+from .models.controller.keyboard import keyboard
+from .config import BUTTON_DICT, DIRECTION_LIST, HAT_LIST
 
 def run_local(joystickNumber):
     js = joystick()
