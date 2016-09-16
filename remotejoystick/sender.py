@@ -15,7 +15,7 @@ def run_sender(serverIp, serverPort, verifyCode, joystickNumber):
         s.sendMsg('\x00' * 3 + key)
     print('Sender started, press Ctrl-C to exit.')
     try:
-        while not s.connect((serverIp, serverPort), verifyCode): pass
+        while not s.connect((serverIp, serverPort), verifyCode): time.sleep(1)
         print('Sender successfully connected.')
 
         js = joystick()
@@ -56,8 +56,7 @@ def run_sender(serverIp, serverPort, verifyCode, joystickNumber):
             sys.stdin.read() # I can't use while 1: time.sleep(1) here and I don't know why
         else:
             print('Specified joystick not detected, please restart after plugged in.')
-    except Exception as e:
-        if not e in (KeyboardInterrupt, EOFError): print(e.args)
+    except (KeyboardInterrupt, EOFError):
         try:
             s.disconnect()
             js.stop()

@@ -22,7 +22,7 @@ Options:
 '''
 from docopt import docopt
 
-__version__ = '0.0.6'
+__version__ = '0.0.7'
 
 def main():
     arg = docopt(__doc__, version=__version__)

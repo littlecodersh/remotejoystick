@@ -1,4 +1,4 @@
-import time, threading, socket, sys
+import time, threading, socket, sys, select
 
 from .jssocket import jssocket
 
@@ -14,11 +14,14 @@ class server(object):
     # 3. Deleted for waiting for first client
     __alive = False
     def __init__(self, serverInfo, accessPair=1):
+        self.__server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.__server.bind(serverInfo)
         self.__server.listen(accessPair * 2)
         self.__pairThread = threading.Thread(target=self.__wait_for_pair)
         self.__pairThread.setDaemon(True)
     def __wait_for_pair(self):
+        ''' Thread to deal with socket temp to connect
+            * whether type of socket is right is also determined here '''
         while self.__alive:
             remoteClient, address = self.__server.accept()
             remoteClient.settimeout(CONNECT_WAIT_TIME)
@@ -51,10 +54,14 @@ class server(object):
         print('%s updated, current code: ' % {jssocket.SENDER: 'SENDER', jssocket.RECEIVER: 'RECVER'}.get(clientType)
             + ', '.join(filter(lambda x: self.__verificationDict[x] == clientType, self.__verificationDict.keys())))
     def __communicate_fn(self, verifyCode, clientType, client):
+        ''' Thread to maintain connection
+            * determine whether connection can be made '''
         stopTime = time.time() + CMD_WAIT_TIME
         while self.__alive and time.time() < stopTime:
             if self.__verificationDict[verifyCode] in (jssocket.SENDER, jssocket.RECEIVER):
-                time.sleep(.5)
+                if select.select([client], [], [], .5)[0]:
+                    msgType, msgData = self.__server.format_pull(client)
+                    if msgType == jssocket.CLOSE: break # client will be closed in except
             else:
                 sender, receiver = client, self.__verificationDict[verifyCode]
                 del self.__verificationDict[verifyCode]
@@ -66,11 +73,14 @@ class server(object):
                 sender.settimeout(CMD_WAIT_TIME) # timeout will cause return (0, b'\x00'*4)
                 msgType, msgData = self.__server.format_pull(sender)
                 while self.__alive and msgType != 0:
-                    self.__server.format_push(receiver, msgType, msgData)
+                    try:
+                        self.__server.format_push(receiver, msgType, msgData)
+                    except socket.error:
+                        msgType = 0; continue
                     msgType, msgData = self.__server.format_pull(sender)
-                if msgType == 0: self.__alive = False
+                if msgType == 0: break
         try: # exit main loop so socket will be closed
-            for c in (sender, receiver): 
+            for c in (sender, receiver): # if connection is not made, neither is defined
                 self.__server.format_push(c, 0, '\x00\x00\x00\x00')
                 c.close()
         except NameError: # cannot get second socket in CMD_WAIT_TIME

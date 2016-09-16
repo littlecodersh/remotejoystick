@@ -1,4 +1,4 @@
-import sys
+import sys, select, socket
 
 from .jssocket import jssocket
 
@@ -9,16 +9,22 @@ class sender(object):
         pass
     def connect(self, serverInfo, verifyCode):
         if self.__connected == True: return True
-        self.__client.connect(serverInfo)
+        try:
+            self.__client.connect(serverInfo)
+        except socket.error:
+            return False
         self.__client.push(jssocket.SENDER, ('0000' + verifyCode)[-4:])
-        msgType, msgData = self.__client.pull()
-        if msgType == jssocket.SENDER and msgData == verifyCode:
-            self.__connected = True
-            return True
-        else:
+        try:
+            while not select.select([self.__client], [], [], .5)[0]: pass
+        except KeyboardInterrupt:
             self.__client.push(jssocket.CLOSE, '\x00\x00\x00\x00')
             self.__client.close()
             return False
+        else:
+            msgType, msgData = self.__client.pull()
+            if msgType == jssocket.SENDER and msgData == verifyCode:
+                self.__connected = True
+                return True
     def disconnect(self):
         if self.__connected == False: return
         self.__client.push(jssocket.CLOSE, '\x00\x00\x00\x00')

@@ -18,7 +18,7 @@ def run_receiver(serverIp, serverPort, verifyCode):
     r = receiver()
     print('Receiver started, press Ctrl-C to exit.')
     try:
-        while not r.connect((serverIp, serverPort), verifyCode): pass
+        while not r.connect((serverIp, serverPort), verifyCode): time.sleep(1)
         print('Receiver successfully connected.')
         while r.isAlive():
             msg = r.getMsg()
